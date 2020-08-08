@@ -38,7 +38,9 @@ def loop(maxDepth,currentDepth,file,base,excess):
     minusArr = getMinusOneArray(base)
     zerosArr = getZeros(minusArr)
 
-    if(len(zerosArr) > 0):
+    zeroCount = len(zerosArr)
+    if(zeroCount > 0):
+        
         file.write("\t"*tabCount+">"*toFirstCell+"\n")
         for zeroIndex in zerosArr:
             file.write("\t"*tabCount+">"*zeroIndex+"\n")
@@ -52,6 +54,16 @@ def loop(maxDepth,currentDepth,file,base,excess):
             file.write("\t"*tabCount+"<"*zeroIndex+"\n")
         file.write("\t"*tabCount+"<"*toFirstCell+"\n")
         
+
+        '''
+        tab = "\t"*tabCount
+        command = (tab+">+"+"\n")
+
+        file.write(tab+">"*toFirstCell+"\n")
+        file.write(command*zeroCount)
+        file.write(tab+"<"*zeroCount)
+        file.write(tab+"<"*toFirstCell+"\n")
+        '''
     #bu derinlik sonu
     
     if(currentDepth>1):
@@ -96,5 +108,13 @@ text = input("BrainFuck kodu üretilecek dizgiyi girin:\n")
 for character in text:
     myArray.append(ord(character))
 
-codeFile = open("kod.bf","w+")
+codeFile = open("code.bf","w+")
 generateBrainFuck(myArray,codeFile)
+codeFile.close()
+
+
+f = open("code.bf","r")
+withSpace = f.read()
+spacelessFile = open("code_spaceless.bf","w+")
+spacelessCode = withSpace.replace("\n","").replace("\t","")
+spacelessFile.write(spacelessCode)
