@@ -27,42 +27,37 @@ def loop(maxDepth,currentDepth,file,base,excess):
     toFirstCell = currentDepth
     currentCellIndex = step-1
     tabCount = step-1
-    file.write("\t"*tabCount+"++")
-    file.write("\n")
-    file.write("\t"*tabCount+"[")
-    file.write("\n")
-    file.write("\t"*tabCount+">")
-    file.write("\n")
+    file.write("++")
+    file.write("[")
+    file.write(">")
     #burada bu derinlikte yapılacak olanlar
 
     minusArr = getMinusOneArray(base)
     zerosArr = getZeros(minusArr)
 
     if(len(zerosArr) > 0):
-        file.write("\t"*tabCount+">"*toFirstCell+"\n")
+        file.write(">"*toFirstCell)
         for zeroIndex in zerosArr:
-            file.write("\t"*tabCount+">"*zeroIndex+"\n")
+            file.write(">"*zeroIndex)
             #bu zero base cell için yapılacklar
             
             
-            file.write("\t"*tabCount+"+"+"\n")
+            file.write("+")
         
 
             #end zero base cell
-            file.write("\t"*tabCount+"<"*zeroIndex+"\n")
-        file.write("\t"*tabCount+"<"*toFirstCell+"\n")
+            file.write("<"*zeroIndex)
+        file.write("<"*toFirstCell)
         
     #bu derinlik sonu
     
     if(currentDepth>1):
         loop(maxDepth,currentDepth-1,file,base,excess)
 
-    file.write("\t"*tabCount+"<")
-    file.write("\n")
-    file.write("\t"*tabCount+"-")
-    file.write("\n")
-    file.write("\t"*tabCount+"]")
-    file.write("\n")
+    file.write("<")
+    file.write("-")
+    file.write("]")
+    
 
 def goLastFromFirst(depth,file):
         file.write(">"*(depth))
@@ -86,7 +81,7 @@ def generateBrainFuck(arr,file):
     addExcess(ex,file)
     goFirstFromLast(maxDepth,file)
     #yazdırma
-    file.write("\n"+(">"*(maxDepth)))
+    file.write((">"*(maxDepth)))
     file.write(">."*len(arr))
     #yazdırma son
 
@@ -96,5 +91,5 @@ text = input("BrainFuck kodu üretilecek dizgiyi girin:\n")
 for character in text:
     myArray.append(ord(character))
 
-codeFile = open("kod.bf","w+")
+codeFile = open("kod_bosluksuz.bf","w+")
 generateBrainFuck(myArray,codeFile)
