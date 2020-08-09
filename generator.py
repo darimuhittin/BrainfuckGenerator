@@ -25,7 +25,7 @@ def getBaseAndExcess(arr):
 def loop(maxDepth,currentDepth,file,base,excess):
     step = maxDepth-currentDepth+1
     toFirstCell = currentDepth
-    currentCellIndex = step-1
+    #currentCellIndex = step-1
     tabCount = step-1
     file.write("\t"*tabCount+"++")
     file.write("\n")
