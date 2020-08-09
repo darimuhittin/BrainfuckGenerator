@@ -25,6 +25,7 @@ def getBaseAndExcess(arr):
 def loop(maxDepth,currentDepth,file,base,excess):
     step = maxDepth-currentDepth+1
     toFirstCell = currentDepth
+    charCount = len(base)
     #currentCellIndex = step-1
     tabCount = step-1
     file.write("\t"*tabCount+"++")
@@ -40,19 +41,30 @@ def loop(maxDepth,currentDepth,file,base,excess):
 
     zeroCount = len(zerosArr)
     if(zeroCount > 0):
-        
-        file.write("\t"*tabCount+">"*toFirstCell+"\n")
+        tab = tabCount*"\t"
+        file.write(tab+">"*toFirstCell+"\n")
+        cellNo = 0
+        for cellInd in range(charCount):
+            if cellInd in zerosArr:
+                file.write(tab+"+"+"\n")
+            file.write(tab+">"+"\n")
+        file.write(tab+"<"*charCount+"\n")
+                
+        '''
         for zeroIndex in zerosArr:
-            file.write("\t"*tabCount+">"*zeroIndex+"\n")
+            if
+            file.write(tab+">")
+            file.write(tab+">"*zeroIndex+"\n")
             #bu zero base cell için yapılacklar
             
             
-            file.write("\t"*tabCount+"+"+"\n")
+            file.write(tab+"+"+"\n")
         
 
             #end zero base cell
-            file.write("\t"*tabCount+"<"*zeroIndex+"\n")
-        file.write("\t"*tabCount+"<"*toFirstCell+"\n")
+            file.write(tab+"<"*zeroIndex+"\n")
+        '''
+        file.write(tab+"<"*toFirstCell+"\n")
         
 
         '''
