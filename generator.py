@@ -16,23 +16,33 @@ def getBaseAndExcess(arr):
     arrBase = []
     arrExcess = []
     for e in arr:
-        baseRes = (int(math.log2(e)))
-        excessRes = e - (2**baseRes)
+        try:
+            baseRes = (int(math.log2(e)))
+        except:
+            baseRes = 0
+        if baseRes != 0:
+            excessRes = e - (2**baseRes)
+        else:
+            excessRes = e
         arrBase.append(baseRes)
         arrExcess.append(excessRes)
     return arrBase,arrExcess
 
 def loop(maxDepth,currentDepth,file,base,excess):
     step = maxDepth-currentDepth+1
-    toFirstCell = currentDepth
+    toFirstCell = currentDepth-1# burada muntazam bir problem var lakin
+                                # nasıl yanlışlıkla üstesinden geldiğime dair
+                                # bildiğim tek şey var ise
+                                # o da hiçbir şey bilmediğimdir...
     charCount = len(base)
     #currentCellIndex = step-1
     tabCount = step-1
-    file.write("\t"*tabCount+"++")
+    tab = tabCount*"\t"
+    file.write(tab+"++")
     file.write("\n")
-    file.write("\t"*tabCount+"[")
+    file.write(tab+"[")
     file.write("\n")
-    file.write("\t"*tabCount+">")
+    file.write(tab+">")
     file.write("\n")
     #burada bu derinlikte yapılacak olanlar
 
@@ -41,58 +51,33 @@ def loop(maxDepth,currentDepth,file,base,excess):
 
     zeroCount = len(zerosArr)
     if(zeroCount > 0):
-        tab = tabCount*"\t"
         file.write(tab+">"*toFirstCell+"\n")
-        cellNo = 0
+        tab += "\t"
         for cellInd in range(charCount):
             if cellInd in zerosArr:
                 file.write(tab+"+"+"\n")
             file.write(tab+">"+"\n")
         file.write(tab+"<"*charCount+"\n")
-                
-        '''
-        for zeroIndex in zerosArr:
-            if
-            file.write(tab+">")
-            file.write(tab+">"*zeroIndex+"\n")
-            #bu zero base cell için yapılacklar
-            
-            
-            file.write(tab+"+"+"\n")
-        
-
-            #end zero base cell
-            file.write(tab+"<"*zeroIndex+"\n")
-        '''
+        tab = tab[:-1]
         file.write(tab+"<"*toFirstCell+"\n")
         
-
-        '''
-        tab = "\t"*tabCount
-        command = (tab+">+"+"\n")
-
-        file.write(tab+">"*toFirstCell+"\n")
-        file.write(command*zeroCount)
-        file.write(tab+"<"*zeroCount)
-        file.write(tab+"<"*toFirstCell+"\n")
-        '''
     #bu derinlik sonu
     
     if(currentDepth>1):
         loop(maxDepth,currentDepth-1,file,base,excess)
 
-    file.write("\t"*tabCount+"<")
+    file.write(tab+"<")
     file.write("\n")
-    file.write("\t"*tabCount+"-")
+    file.write(tab+"-")
     file.write("\n")
-    file.write("\t"*tabCount+"]")
+    file.write(tab+"]")
     file.write("\n")
 
 def goLastFromFirst(depth,file):
-        file.write(">"*(depth))
+        file.write(">"*(depth-1))
 
 def goFirstFromLast(depth,file):
-        file.write("<"*(depth))
+        file.write("<"*(depth-1))
         
 def addExcess(exArr,file):
     for e in exArr:
@@ -105,13 +90,23 @@ def generateBrainFuck(arr,file):
     maxDepth = max(base)
     loop(maxDepth,maxDepth,file,base,ex)
     
+    #second loop
+    base,ex = getBaseAndExcess(ex)
+    loop(maxDepth,maxDepth,file,base,ex)
+    #second loop
+    
+    #third loop
+    # base,ex = getBaseAndExcess(ex)
+    # loop(maxDepth,maxDepth,file,base,ex)
+    #third loop
+
     #go
     goLastFromFirst(maxDepth,file)
     addExcess(ex,file)
     goFirstFromLast(maxDepth,file)
     #yazdırma
-    file.write("\n"+(">"*(maxDepth)))
-    file.write(">."*len(arr))
+    file.write("\n"+(">"*(maxDepth-1))+"\n")
+    file.write(">[.>]")
     #yazdırma son
 
 myArray = []
