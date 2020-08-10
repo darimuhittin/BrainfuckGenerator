@@ -1,6 +1,10 @@
 #%%
 import math 
 
+logBase = 2
+text = input("BrainFuck kodu üretilecek dizgiyi girin:\n")
+
+
 get_indexes = lambda x, xs: [i for (y, i) in zip(xs, range(len(xs))) if x == y]
 
 def getZeros(baseArray):
@@ -17,11 +21,11 @@ def getBaseAndExcess(arr):
     arrExcess = []
     for e in arr:
         try:
-            baseRes = (int(math.log2(e)))
+            baseRes = (int(math.log(e,logBase)))
         except:
             baseRes = 0
         if baseRes != 0:
-            excessRes = e - (2**baseRes)
+            excessRes = e - (logBase**baseRes)
         else:
             excessRes = e
         arrBase.append(baseRes)
@@ -38,7 +42,7 @@ def loop(maxDepth,currentDepth,file,base,excess):
     #currentCellIndex = step-1
     tabCount = step-1
     tab = tabCount*"\t"
-    file.write(tab+"++")
+    file.write(tab+"+"*logBase)
     file.write("\n")
     file.write(tab+"[")
     file.write("\n")
@@ -110,18 +114,17 @@ def generateBrainFuck(arr,file):
     #yazdırma son
 
 myArray = []
-text = input("BrainFuck kodu üretilecek dizgiyi girin:\n")
 
 for character in text:
     myArray.append(ord(character))
 
-codeFile = open("code.bf","w+")
+codeFile = open("code_base"+str(logBase)+".bf","w+")
 generateBrainFuck(myArray,codeFile)
 codeFile.close()
 
 
-f = open("code.bf","r")
+f = open("code_base"+str(logBase)+".bf","r")
 withSpace = f.read()
-spacelessFile = open("code_spaceless.bf","w+")
+spacelessFile = open("code_spaceless_base"+str(logBase)+".bf","w+")
 spacelessCode = withSpace.replace("\n","").replace("\t","")
 spacelessFile.write(spacelessCode)
